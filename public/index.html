@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/htmx.org@1.9.11"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@asgardeo/auth-spa@latest/dist/asgardeo-spa.production.min.js"></script>
+    <title>HTMX Sample App</title>
+</head>
+<body>
+    <script>
+        htmx.onLoad(function (content) {
+            // This client is a class and can be instantiated as follows.
+            var auth = AsgardeoAuth.AsgardeoSPAClient.getInstance();
+
+            // Once instantiated, the  client can be initialized by passing the relevant parameters such as the baseUrl, redirect URL, client ID, etc.
+            auth.initialize({
+                signInRedirectURL: "https://localhost:3000",
+                signOutRedirectURL: "https://localhost:3000",
+                clientID: "wQRwt5w2X7EPMFpoUYKtSTyfc0Qa",
+                baseUrl: "https://api.asgardeo.io/t/pavinduorg"
+            });
+
+            // The `sign-in` hook is used to fire a callback function after signing in is successful.
+            auth.on("sign-in", (response) => {
+                console.log("signed")
+                window.location.href = "/dashboard"
+            });
+        })
+
+        function signIn(e) {
+            // This client is a class and can be instantiated as follows.
+            var auth = AsgardeoAuth.AsgardeoSPAClient.getInstance();
+            auth.signIn();
+        }
+    </script>
+    <div class="text-center">
+        <h1 class="text-2xl font-bold my-5">
+            Asgardeo + HTMX Sample App
+        </h1>
+        <button
+            onclick="signIn()"
+            class="bg-blue-300 px-5 py-3 rounded-md"
+        >
+            Login
+        </button>
+        <div id="users"></div>
+    </div>
+
+</body>
+</html>
